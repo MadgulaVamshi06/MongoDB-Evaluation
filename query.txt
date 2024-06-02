@@ -1,19 +1,19 @@
 Mongo Query 1:
 Write Mongo query to retrieve the documents from the payments collection with an amount lesser than or equal to 30.
-Ans : db.payments.aggregates([
+Ans : db.payments.aggregate([
     {$match : {amount:{$gte : 30}}}
     ])
 
 
 Mongo Query 2:
 Write Mongo query to retrieve orders sorted by order date in ascending order.
-Ans : db.orders.aggregates([
+Ans : db.orders.aggregate([
     {$sort : {order_date : 1}}
     ])
 
 Mongo Query 3:
 Write Mongo query to get the total number of orders count per customer ?
-Ans: db.orders.aggregates([
+Ans: db.orders.aggregate([
     {$group : { _id : "customer_id", Count : {$sum : 1 }}},
     {$project :{ _id: 1, count : 1}}
 ])
@@ -22,14 +22,26 @@ Ans: db.orders.aggregates([
 Mongo Query 4:
 Write Mongo query to find the average total of orders made by customers who live in California(CA).
 The answer should be a with a key avgTotal and it's value should Integer not a Float.
-Ans :
+Ans : db.orders.aggregate([
+    {$match : { "buyers.address.state" : "CA"}},
+    {$group : {_id : null ,
+     avgTotal: {$avg : "$total"}}},
+    {$project :{_id_0,
+    avgTotal:{$toInt:{"$avgTotal"}}}}
+])
 
 
 
 
 Mongo Query 5:
 Write Mongo query to find Most used payment Method as paymentMethod and the number of time it is used as count.
-Ans :
+Ans :db.payments.aggregate([
+    {$group : {
+        _id: "$paymentMethod",
+        count:{$sum : 1}
+    }},
+    {$project : {_id:0, paymentMethod:"$_id",count : 1}}
+])
 
 
 
