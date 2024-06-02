@@ -26,8 +26,8 @@ Ans : db.orders.aggregate([
     {$match : { "buyers.address.state" : "CA"}},
     {$group : {_id : null ,
      avgTotal: {$avg : "$total"}}},
-    {$project :{_id_0,
-    avgTotal:{$toInt:{"$avgTotal"}}}}
+    {$project :{_id :0,
+    avgTotal:{$toInt:"$avgTotal"}}}
 ])
 
 
@@ -49,4 +49,13 @@ Ans :db.payments.aggregate([
 Mongo Query 6:
 Write Mongo query to retrieve the ship_date and order_date of an order whose payment status is pending by payment _id.
 Hint: use MongoDB aggregation pipeline with $match, $lookup, $project, $unwind
-Ans :
+Ans :db.payments.aggregate([
+    {$match : {
+         paymentstatus : "pending",
+         _id : "1"
+    }}
+    {$project : {
+        _id : 0 ;
+        ship_date : 
+    }}
+])
