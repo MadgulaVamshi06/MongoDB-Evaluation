@@ -54,8 +54,13 @@ Ans :db.payments.aggregate([
          paymentstatus : "pending",
          _id : "1"
     }}
+    {
+        $lookup :{
+        }
+    }
     {$project : {
         _id : 0 ;
-        ship_date : 
+        ship_date : "$order.ship_date",
+        order_date :"$order.order_date"
     }}
 ])
